@@ -10,16 +10,19 @@ namespace Paint
             while (true)
             {
                 var command = GetInputCommand(new string[]
-                    {"Scenes", "Draw", "Arrange shapes", "Exit"});
+                    {"Scenes", "Draw", "Arrange shapes", "Help", "Exit"});
                 switch (command)
                 {
                     case 1:
+                        var scenes = new Scene();
                         break;
                     case 2:
                         break;
                     case 3:
                         break;
                     case 4:
+                        break;
+                    case 5:
                         //Exit from application
                         return;
 
