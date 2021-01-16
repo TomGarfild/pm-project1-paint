@@ -4,31 +4,45 @@ namespace Paint
 {
     public class Menu
     {
-        public void Start()
+        public virtual void Start()
         {
             Console.WriteLine("Hello, in Console Paint");
+            var scenes = new Scenes();
             while (true)
             {
                 var command = GetInputCommand(new string[]
-                    {"Scenes", "Draw", "Arrange shapes", "Exit"});
+                    {"New scene", "Open scene", "Remove scene", "Help", "Exit"});
                 switch (command)
                 {
                     case 1:
+                        scenes.NewScene();
                         break;
                     case 2:
+                        var currentScene = scenes.OpenScene();
+                        if (currentScene == default(Scene)) break;
+                        var sceneMenu = new SceneMenu();
+                        sceneMenu.Start();
                         break;
                     case 3:
+                        //scenes.Remove(new Scene(""));
                         break;
                     case 4:
+                        PrintHelp();
+                        break;
+                    case 5:
                         //Exit from application
                         return;
 
                 }
             }
         }
-        private static int GetInputCommand(string[] commands)
+        private static void PrintHelp()
         {
-            Console.WriteLine("   Menu");
+
+        }
+        protected static int GetInputCommand(string[] commands)
+        {
+            Console.WriteLine("\n   Menu");
             for (int i = 0; i < commands.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {commands[i]}");
