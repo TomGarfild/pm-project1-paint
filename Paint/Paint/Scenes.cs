@@ -9,17 +9,19 @@ namespace Paint
     public class Scenes
     {
         private List<Scene> scenes;
-
+        private static int _lastId;
         public Scenes()
         {
             try
             {
                 var json = File.ReadAllText("scenes.json");
                 scenes = JsonSerializer.Deserialize<List<Scene>>(json);
+                _lastId = scenes.Last().Id + 1;
             }
             catch (Exception)
             {
                 scenes = new List<Scene>();
+                _lastId = 1;
             }
         }
         public Scene NewScene()
@@ -31,7 +33,7 @@ namespace Paint
                 Console.WriteLine("Sorry, but scene with such name already exists. Try again.");
                 name = Console.ReadLine();
             }
-            var scene = new Scene(name);
+            var scene = new Scene(name, _lastId);
             scenes.Add(scene);
             return scene;
         }
@@ -63,11 +65,18 @@ namespace Paint
             {
                 Console.WriteLine("Your input is wrong. Please try again.");
             }
-            try
+
+            if (scenes.Exists(s => s.Id == id))
             {
-                scenes.Remove(scenes.First(s => s.Id == id));
+                Console.WriteLine($"Are you sure about removing scene with id {id}?");
+                Console.WriteLine("Press y to confirm.");
+                if (Console.ReadKey().Key == ConsoleKey.Y)
+                {
+                    scenes.Remove(scenes.First(s => s.Id == id));
+                    Console.WriteLine($"Scene with {id} was successfully removed from current scene.");
+                }
             }
-            catch (InvalidOperationException)
+            else
             {
                 Console.WriteLine($"Sorry, but scene with id {id} doesn't exist.");
             }
