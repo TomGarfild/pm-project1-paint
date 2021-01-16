@@ -8,37 +8,61 @@ namespace Paint
         {
             Console.WriteLine("Hello, in Console Paint");
             var scenes = new Scenes();
+            var commands = new string[]
+                {"New scene", "Open scene", "Existing scenes", "Remove scene", "Help", "Exit"};
             while (true)
             {
-                var command = GetInputCommand(new string[]
-                    {"New scene", "Open scene", "Remove scene", "Help", "Exit"});
+                var command = GetInputCommand(commands);
                 switch (command)
                 {
                     case 1:
-                        scenes.NewScene();
-                        break;
                     case 2:
-                        var currentScene = scenes.OpenScene();
-                        if (currentScene == default(Scene)) break;
-                        var sceneMenu = new SceneMenu();
+                        Scene currentScene;
+                        if (command == 1)
+                        {
+                            currentScene = scenes.NewScene();
+                            scenes.Save();      
+                        }
+                        else
+                        {
+                            currentScene = scenes.OpenScene();
+                            if (currentScene == default(Scene)) break;
+                        }
+                        var sceneMenu = new SceneMenu(currentScene);
                         sceneMenu.Start();
                         break;
                     case 3:
-                        //scenes.Remove(new Scene(""));
+                        scenes.ShowAll();
                         break;
                     case 4:
-                        PrintHelp();
+                        scenes.Remove();
                         break;
                     case 5:
+                        var meaning = new string[]
+                        {
+                            "Create new scene with unique name, that you choose, and auto-generated unique Id. Also, redirect to menu of this scene.",
+                            "Open scene by Id that was created early. And redirect to menu of this scene if it exists.",
+                            "Display existing scenes' names and ids.",
+                            "Remove scene by Id. Do nothing if such scene doesn't exist.",
+                            "Display information about commands.",
+                            "Exit from application."
+                        };
+                        PrintHelp(commands, meaning);
+                        break;
+                    case 6:
                         //Exit from application
                         return;
 
                 }
             }
         }
-        private static void PrintHelp()
+        protected static void PrintHelp(string[] commands, string[] meaning)
         {
-
+            Console.WriteLine("\n   Help");
+            for (int i = 0; i < commands.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {commands[i]} - {meaning[i]}");
+            }
         }
         protected static int GetInputCommand(string[] commands)
         {
