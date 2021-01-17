@@ -4,10 +4,10 @@ namespace Paint
 {
     public class SceneMenu : Menu
     {
-        private Scene scene;
+        private readonly Scene _scene;
         public SceneMenu(Scene currentScene)
         {
-            scene = currentScene;
+            _scene = currentScene;
         }
         public override void Start()
         {
@@ -19,16 +19,16 @@ namespace Paint
                 switch (command)
                 {
                     case 1:
-                        scene.Draw();
+                        _scene.Draw();
                         break;
                     case 2:
-                        
+                        _scene.Change();
                         break;
                     case 3:
-                        scene.Remove();
+                        _scene.Remove();
                         break;
                     case 4:
-                        scene.Arrange();
+                        _scene.Arrange();
                         break;
                     case 5:
                         var meaning = new string[]
