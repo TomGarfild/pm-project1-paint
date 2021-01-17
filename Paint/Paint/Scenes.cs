@@ -9,22 +9,33 @@ namespace Paint
     public class Scenes
     {
         private List<Scene> scenes;
-
+        private static int _lastId;
         public Scenes()
         {
             try
             {
                 var json = File.ReadAllText("scenes.json");
                 scenes = JsonSerializer.Deserialize<List<Scene>>(json);
+                _lastId = scenes.Last().Id + 1;
             }
             catch (Exception)
             {
                 scenes = new List<Scene>();
+                _lastId = 1;
             }
         }
-        public void NewScene()
+        public Scene NewScene()
         {
-
+            Console.WriteLine("Enter name of this scene");
+            var name = Console.ReadLine();
+            while (scenes.Exists(s => s.Name == name))
+            {
+                Console.WriteLine("Sorry, but scene with such name already exists. Try again.");
+                name = Console.ReadLine();
+            }
+            var scene = new Scene(name, _lastId);
+            scenes.Add(scene);
+            return scene;
         }
         public Scene OpenScene()
         {
@@ -46,9 +57,46 @@ namespace Paint
             }
         }
 
-        public void Remove(Scene scene)
+        public void Remove()
         {
-            scenes.Remove(scene);
+            int id;
+            Console.WriteLine("Enter id of the scene that you want to remove");
+            while (!int.TryParse(Console.ReadLine(), out id) || id <= 0)
+            {
+                Console.WriteLine("Your input is wrong. Please try again.");
+            }
+
+            if (scenes.Exists(s => s.Id == id))
+            {
+                Console.WriteLine($"Are you sure about removing scene with id {id}?");
+                Console.WriteLine("Press y to confirm.");
+                if (Console.ReadKey().Key == ConsoleKey.Y)
+                {
+                    scenes.Remove(scenes.First(s => s.Id == id));
+                    Console.WriteLine($"Scene with {id} was successfully removed from current scene.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Sorry, but scene with id {id} doesn't exist.");
+            }
+        }
+        public void ShowAll()
+        {
+            if (scenes.Count == 0)
+            {
+                Console.WriteLine("You have not created any scene, yet.");
+            }
+            else
+            {
+                scenes.ForEach(s => Console.WriteLine($"Id: {s.Id}; Name: {s.Name}"));
+            }
+        }
+
+        public void Save()
+        {
+            var json = JsonSerializer.Serialize(scenes);
+            File.WriteAllText("scenes.json", json);
         }
     }
 }
