@@ -8,18 +8,18 @@ namespace Paint
     {
         public string Name { get; }
         public int Id { get; }
-        public List<Shape> shapes;
+        private readonly List<Shape> _shapes;
         public Scene(string name, int id)
         {
             Name = name;
             Id = id;
-            shapes = new List<Shape>();
+            _shapes = new List<Shape>();
         }
 
         public void Draw()
         {
             //Max depth is 10 (from 0 to 9)
-            if (shapes.Count == 10)
+            if (_shapes.Count == 10)
             {
                 Console.WriteLine("Sorry, but you cannot draw new shape.");
             }
@@ -43,7 +43,7 @@ namespace Paint
                 Console.WriteLine("Your input is wrong. Please try again.");
             }
 
-            if (shapes.Count <= depth)
+            if (_shapes.Count <= depth)
             {
                 Console.WriteLine($"Sorry, but shape with depth {depth} doesn't exist in current scene.");
             }
@@ -53,7 +53,7 @@ namespace Paint
                 Console.WriteLine("Press y to confirm.");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
-                    shapes.Remove(shapes.FirstOrDefault(sh => sh.Depth == depth));
+                    _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
                     Console.WriteLine($"Shape with {depth} was successfully removed from current scene.");
                 }
                 
