@@ -15,7 +15,7 @@ namespace Paint
                 {"Draw shape", "Change shape", "Remove shape", "Arrange shapes", "Help", "Main menu"};
             while (true)
             {
-                var command = GetInputCommand(commands);
+                var command = GetInputCommand(commands, _scene.Name);
                 switch (command)
                 {
                     case 1:

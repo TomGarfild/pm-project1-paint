@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
+using Paint.Shapes;
 
 namespace Paint
 {
     public class Scene
     {
-        public string Name { get; }
-        public int Id { get; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
         private readonly List<Shape> _shapes;
+
+        public Scene()
+        {
+        }
         public Scene(string name, int id)
         {
             Name = name;
@@ -25,7 +33,7 @@ namespace Paint
             }
             else
             {
-                //TODO make functional for drawing shapes
+                GetType();
             }
         }
 
@@ -63,6 +71,23 @@ namespace Paint
         public void Arrange()
         {
 
+        }
+
+        private new Shapes.Shapes GetType()
+        {
+            foreach (var s in Enum.GetValues(typeof(Shapes.Shapes)))
+            {
+                Console.WriteLine($"{(int)s} - {s}");
+            }
+
+            Shapes.Shapes type;
+            Console.Write("Enter number of the shape that you choose: ");
+            while (Enum.TryParse(Console.ReadLine(), out type))
+            {
+                Console.WriteLine("\nSorry, but your input is wrong. Try again.");
+                Console.Write("Enter number of the shape that you choose: ");
+            }
+            return type;
         }
     }
 }

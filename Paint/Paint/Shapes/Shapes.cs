@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace Paint
+﻿namespace Paint.Shapes
 {
-    public class Shapes
+    public enum Shapes
     {
-        private List<Shape> shapes;
+        Line = 1,
+        Triangle,
+        Rectangle,
+        Circle
     }
 }

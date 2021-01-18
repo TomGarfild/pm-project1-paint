@@ -12,7 +12,7 @@ namespace Paint
                 {"New scene", "Open scene", "Existing scenes", "Remove scene", "Help", "Exit"};
             while (true)
             {
-                var command = GetInputCommand(commands);
+                var command = GetInputCommand(commands, "Main");
                 switch (command)
                 {
                     case 1:
@@ -35,7 +35,7 @@ namespace Paint
                         scenes.ShowAll();
                         break;
                     case 4:
-                        scenes.Remove();
+                        if (scenes.Remove()) scenes.Save();
                         break;
                     case 5:
                         var meaning = new string[]
@@ -64,9 +64,9 @@ namespace Paint
                 Console.WriteLine($"{i + 1}. {commands[i]} - {meaning[i]}");
             }
         }
-        protected static int GetInputCommand(string[] commands)
+        protected static int GetInputCommand(string[] commands, string menuName)
         {
-            Console.WriteLine("\n   Menu");
+            Console.WriteLine($"\n{menuName} menu");
             for (int i = 0; i < commands.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {commands[i]}");
