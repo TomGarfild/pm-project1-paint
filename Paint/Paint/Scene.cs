@@ -12,7 +12,8 @@ namespace Paint
         public string Name { get; set; }
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        private readonly List<Shape> _shapes;
+        [JsonPropertyName("shapes")]
+        public List<Shape> _shapes { get; set; }
 
         public Scene()
         {
@@ -30,13 +31,34 @@ namespace Paint
             if (_shapes.Count == 10)
             {
                 Console.WriteLine("Sorry, but you cannot draw new shape.");
+                Console.WriteLine("Firstly, please remove one or more shapes from current scene.");
             }
             else
             {
-                GetType();
+                var type = GetType();
+                var size = GetSize(new string[] {"small", "medium", "large"});
+                Shape shape;
+                switch (type)
+                {
+                    case Shapes.Shapes.Line:
+                        shape = new Line(size, _shapes.Count + 1);
+                        break;
+                    case Shapes.Shapes.Triangle:
+                        shape = new Triangle(size, _shapes.Count + 1);
+                        break;
+                    case Shapes.Shapes.Rectangle:
+                        shape = new Rectangle(size, _shapes.Count + 1);
+                        break;
+                    case Shapes.Shapes.Circle:
+                        shape = new Circle(size, _shapes.Count + 1);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                _shapes.Add(shape);
+
             }
         }
-
         public void Change()
         {
 
@@ -80,14 +102,35 @@ namespace Paint
                 Console.WriteLine($"{(int)s} - {s}");
             }
 
-            Shapes.Shapes type;
+            int type;
             Console.Write("Enter number of the shape that you choose: ");
-            while (Enum.TryParse(Console.ReadLine(), out type))
+            while (!int.TryParse(Console.ReadLine(), out type) || type < 1 || type > 4)
             {
-                Console.WriteLine("\nSorry, but your input is wrong. Try again.");
+                Console.WriteLine("Sorry, but your input is wrong. Try again.\n");
+                foreach (var s in Enum.GetValues(typeof(Shapes.Shapes)))
+                {
+                    Console.WriteLine($"{(int)s} - {s}");
+                }
                 Console.Write("Enter number of the shape that you choose: ");
             }
-            return type;
+            return (Shapes.Shapes)type;
+        }
+
+        private int GetSize(string[] sizes)
+        {
+            for (int i = 0; i < sizes.Length; i++)
+            {
+                Console.WriteLine($"{i+1} - {sizes[i]}");
+            }
+
+            Console.Write("Enter number of the size for your shape: ");
+            var key = Console.ReadKey().KeyChar;
+            if (key >= '1' && key <= (char)(sizes.Length + '0'))
+            {
+                return (int) (key - '0');
+            }
+            //else return small size
+            return 1;
         }
     }
 }

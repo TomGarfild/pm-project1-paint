@@ -76,11 +76,11 @@ namespace Paint
             int command;
             while (!int.TryParse(Console.ReadLine(), out command) || command < 1 || command > commands.Length)
             {
-                Console.WriteLine("\nWrong command\n");
-                Console.WriteLine("   Menu");
+                Console.WriteLine("Wrong command");
+                Console.WriteLine($"\n{menuName} menu");
                 for (int i = 0; i < commands.Length; i++)
                 {
-                    Console.WriteLine($"\t{i + 1}. {commands[i]}");
+                    Console.WriteLine($"{i + 1}. {commands[i]}");
                 }
 
                 Console.WriteLine("Enter number of command in menu");

@@ -49,7 +49,7 @@ namespace Paint
 
             try
             {
-                return _scenes.First();
+                return _scenes.First(s => s.Id == id);
             }
             catch (InvalidOperationException)
             {

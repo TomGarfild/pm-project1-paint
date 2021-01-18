@@ -2,7 +2,13 @@
 {
     public abstract class Shape
     {
+        public int Size { get; }
         public int Depth { get; }
-        public Shapes type { get; }
+
+        protected Shape(int size, int depth)
+        {
+            Size = size;
+            Depth = depth;
+        }
     }
 }
