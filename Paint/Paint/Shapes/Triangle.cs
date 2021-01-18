@@ -1,8 +1,8 @@
 ﻿namespace Paint.Shapes
 {
-    public class Rectangle : Shape
+    public class Triangle : Shape
     {
-        public Rectangle(int size, int depth)
+        public Triangle(int size, int depth)
             : base(size, depth)
         {
 
