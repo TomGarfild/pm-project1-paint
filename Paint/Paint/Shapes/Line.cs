@@ -1,13 +1,24 @@
-﻿namespace Paint.Shapes
+﻿using System;
+
+namespace Paint.Shapes
 {
     public class Line : Shape
     {
+        public int Length { get; }
+        public int Type { get; }
         public Line(int depth)
             : base(depth)
         {
-
+            Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
+            Length = GetLength();
         }
-
+        private int GetLength()
+        {
+            Console.Write("Enter length of the line: ");
+            if (int.TryParse(Console.ReadLine(), out var size)
+                && size >= 1) return size;
+            return 1;
+        }
         protected override int CalculateSquare()
         {
             throw new System.NotImplementedException();

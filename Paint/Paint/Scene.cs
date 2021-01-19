@@ -25,9 +25,9 @@ namespace Paint
             _shapes = new List<Shape>();
         }
 
-        public void DrawScene(int width, int height)
+        public void DrawScene()
         {
-            Console.SetWindowSize(width, height);
+            Console.SetWindowSize(PictureSize.Width, PictureSize.Height);
 
         }
         public void Draw()

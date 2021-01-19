@@ -11,20 +11,8 @@ namespace Paint.Shapes
             : base(depth)
         {
             Filled = filled;
-            Type = GetTriangleType(new string[] {"Right triangle", "Isosceles triangle"});
+            Type = GetShapeKind(new string[] {"Right triangle", "Isosceles triangle"}, "triangle");
             Side = GetSide();
-        }
-
-        private int GetTriangleType(string[] types)
-        {
-            for (int i = 0; i < types.Length; i++)
-            {
-                Console.WriteLine($"{i + 1} - {types[i]}");
-            }
-            Console.Write("Enter number of the type of your triangle: ");
-            if (int.TryParse(Console.ReadLine(), out var key)
-                && key >= 1 && key <= types.Length) return key;
-            return 1;
         }
 
         private int GetSide()
