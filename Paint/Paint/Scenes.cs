@@ -49,7 +49,9 @@ namespace Paint
 
             try
             {
-                return _scenes.First(s => s.Id == id);
+                var scene = _scenes.First(s => s.Id == id);
+                scene.Update();
+                return scene;
             }
             catch (InvalidOperationException)
             {

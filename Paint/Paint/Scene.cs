@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Paint.Shapes;
 
@@ -10,14 +12,18 @@ namespace Paint
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("shapes")]
-        public List<Shape> _shapes { get; set; }
+
+        private List<Shape> _shapes;
+
+        private const int PictureSize = 25;
 
         public Scene()
         {
         }
+
         public Scene(string name, int id)
         {
             Name = name;
@@ -25,10 +31,34 @@ namespace Paint
             _shapes = new List<Shape>();
         }
 
-        public void DrawScene(int width, int height)
+        public void DrawScene()
         {
-            Console.SetWindowSize(width, height);
-
+            Console.SetWindowSize(ConsoleSize.Width, ConsoleSize.Height);
+            for (int i = 0; i < PictureSize+2; i++)
+            {
+                Console.Write(' ');
+                for (int j = 0; j < PictureSize*2+2; j++)
+                {
+                    //borders
+                    if (i == 0 || i == PictureSize + 1 ||
+                        j == 0 || j == 2 * PictureSize + 1)
+                    {
+                        Console.Write('#');
+                        continue;
+                    }
+                    var selected = _shapes.Where(s => s.Picture[i-1][j-1] != '\0').Select(s => s.Depth).ToList();
+                    
+                    if (!selected.Any())
+                    {
+                        Console.Write(' ');
+                    }
+                    else
+                    {
+                        Console.Write(selected.Min());
+                    }
+                }
+                Console.WriteLine();
+            }
         }
         public void Draw()
         {
@@ -46,16 +76,16 @@ namespace Paint
                 switch (type)
                 {
                     case Shapes.Shapes.Line:
-                        shape = new Line(_shapes.Count + 1);
+                        shape = new Line(PictureSize, _shapes.Count);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(_shapes.Count + 1, IsFilled());
+                        shape = new Triangle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(_shapes.Count + 1, IsFilled());
+                        shape = new Rectangle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(_shapes.Count + 1, IsFilled());
+                        shape = new Circle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -90,6 +120,10 @@ namespace Paint
                 {
                     _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
                     Console.WriteLine($"Shape with {depth} was successfully removed from current scene.");
+                    foreach (var sh in _shapes)
+                    {
+                        if (sh.Depth > depth) sh.Depth--;
+                    }
                 }
                 
             }
@@ -100,7 +134,31 @@ namespace Paint
 
         }
 
-        private new Shapes.Shapes GetType()
+        public void Filter(string[] options)
+        {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {options[i]}");
+            }
+            Console.Write($"Enter number of the filter: ");
+            if (int.TryParse(Console.ReadLine(), out var index)
+                && index >= 1 && index <= options.Length)
+            {
+                var sortedList = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
+                                        : _shapes.OrderBy(sh => sh.Perimeter).ToList();
+                var i = 0;
+                foreach (var sh in sortedList)
+                {
+                    sh.Depth = i++;
+                }
+                Console.WriteLine($"Shapes were filtered by {options[index-1]}.");
+            }
+            else
+            {
+                Console.WriteLine("Shapes were not filtered.");
+            }
+        }
+        private new static Shapes.Shapes GetType()
         {
             foreach (var s in Enum.GetValues(typeof(Shapes.Shapes)))
             {
@@ -121,12 +179,31 @@ namespace Paint
             return (Shapes.Shapes)type;
         }
 
-        private bool IsFilled()
+        private static bool IsFilled()
         {
             Console.WriteLine("Do you want to fill shape?");
-            Console.WriteLine("Press T to confirm.");
-            if (Console.ReadKey().Key == ConsoleKey.T) return true;
-            return false;
+            Console.Write("Press y to confirm ");
+            var key = Console.ReadKey().Key;
+            Console.WriteLine();
+            return key == ConsoleKey.Y;
+        }
+
+        public void Update()
+        {
+            try
+            {
+                var json = File.ReadAllText(Name + ".json");
+                _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
+            }
+            catch (Exception)
+            {
+                _shapes = new List<Shape>();
+            }
+        }
+        public void Save()
+        {
+            var json = JsonSerializer.Serialize(_shapes);
+            File.WriteAllText(Name + ".json", json);
         }
     }
 }

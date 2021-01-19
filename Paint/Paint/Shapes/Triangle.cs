@@ -7,24 +7,54 @@ namespace Paint.Shapes
         public bool Filled { get; }
         public int Type { get; }
         public int Side { get; }
-        public Triangle(int depth, bool filled)
-            : base(depth)
+
+        public Triangle() : base()
+        {
+
+        }
+        public Triangle(int pictureSize, int depth, bool filled)
+            : base(pictureSize, depth)
         {
             Filled = filled;
-            Type = GetTriangleType(new string[] {"Right triangle", "Isosceles triangle"});
-            Side = GetSide();
-        }
-
-        private int GetTriangleType(string[] types)
-        {
-            for (int i = 0; i < types.Length; i++)
+            Type = GetShapeKind(new string[] {"Right triangle", "Isosceles triangle"}, "triangle");
+            Side = Math.Min(GetSide(), pictureSize);
+            switch (Type)
             {
-                Console.WriteLine($"{i + 1} - {types[i]}");
+                case 1:
+                    for (int i = pictureSize - Side; i < pictureSize; i++)
+                    {
+                        Picture[i][0] = (char)('0' + Depth);
+                        Picture[i][i-pictureSize+Side] = (char)('0' + Depth);
+                        if (filled || i == pictureSize - 1)
+                        {
+                            for (int j = 1; j < i - pictureSize + Side; j++)
+                            {
+                                Picture[i][j] = (char)('0' + Depth);
+                            }
+                        }
+                    }
+                    
+                    Perimeter = Side * (2 + Math.Sqrt(2));
+                    Square = Side * Side / 2d;
+                    break;
+                case 2:
+                    for (int i = pictureSize - Side; i < pictureSize; i++)
+                    {
+                        Picture[i][pictureSize-i-1] = (char)('0' + Depth);
+                        Picture[i][i - pictureSize + 2*Side] = (char)('0' + Depth);
+                        if (filled || i == pictureSize - 1)
+                        {
+                            for (int j = pictureSize-i; j < i - pictureSize + 2 * Side; j++)
+                            {
+                                Picture[i][j] = (char)('0' + Depth);
+                            }
+                        }
+                    }
+                    Perimeter = Side * (2 + 2*Math.Sqrt(2));
+                    if (filled) Square = 0;
+                    else Square = Side * Side;
+                    break;
             }
-            Console.Write("Enter number of the type of your triangle: ");
-            if (int.TryParse(Console.ReadLine(), out var key)
-                && key >= 1 && key <= types.Length) return key;
-            return 1;
         }
 
         private int GetSide()
@@ -33,15 +63,6 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var size)
                 && size >= 1) return size;
             return 1;
-        }
-        protected override int CalculateSquare()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override int CalculatePerimeter()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

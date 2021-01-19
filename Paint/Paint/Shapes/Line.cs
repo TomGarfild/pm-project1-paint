@@ -1,21 +1,52 @@
-﻿namespace Paint.Shapes
+﻿using System;
+
+namespace Paint.Shapes
 {
     public class Line : Shape
     {
-        public Line(int depth)
-            : base(depth)
+        public int Length { get; }
+        public int Type { get; }
+
+        public Line() : base()
         {
 
         }
-
-        protected override int CalculateSquare()
+        public Line(int pictureSize, int depth)
+            : base(pictureSize, depth)
         {
-            throw new System.NotImplementedException();
+            Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
+            Length = Math.Min(GetLength(), pictureSize);
+            switch (Type)
+            {
+                case 1:
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        Picture[pictureSize - l][0] = (char)('0'+Depth);
+                    }
+                    break;
+                case 2:
+                    for (int l = 0; l < Length; l++)
+                    {
+                        Picture[pictureSize - 1][l] = (char)('0' + Depth);
+                    }
+                    break;
+                case 3:
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        Picture[pictureSize-l][l-1] = (char)('0' + Depth);
+                    }
+                    break;
+            }
+
+            Perimeter = Length;
+            Square = Length;
         }
-
-        protected override int CalculatePerimeter()
+        private int GetLength()
         {
-            throw new System.NotImplementedException();
+            Console.Write("Enter length of the line: ");
+            if (int.TryParse(Console.ReadLine(), out var size)
+                && size >= 1) return size;
+            return 1;
         }
     }
 }
