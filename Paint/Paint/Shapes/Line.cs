@@ -6,8 +6,8 @@ namespace Paint.Shapes
     {
         public int Length { get; }
         public int Type { get; }
-        public Line(int depth)
-            : base(depth)
+        public Line(int pictureSize, int depth)
+            : base(pictureSize, depth)
         {
             Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
             Length = GetLength();

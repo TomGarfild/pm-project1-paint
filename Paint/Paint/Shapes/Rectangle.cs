@@ -7,8 +7,8 @@ namespace Paint.Shapes
         public bool Filled { get; }
         public int Width { get; }
         public int Height { get; }
-        public Rectangle(int depth, bool filled)
-            : base(depth)
+        public Rectangle(int pictureSize, int depth, bool filled)
+            : base(pictureSize, depth)
         {
             Filled = filled;
             Width = GetSide("width");

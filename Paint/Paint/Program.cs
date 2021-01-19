@@ -7,7 +7,7 @@ namespace Paint
         
         static void Main()
         {
-            Console.SetWindowSize(PictureSize.Width, PictureSize.Height);
+            Console.SetWindowSize(ConsoleSize.Width, ConsoleSize.Height);
             var menu = new Menu();
             menu.Start();
         }

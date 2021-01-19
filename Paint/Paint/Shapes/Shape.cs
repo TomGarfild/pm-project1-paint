@@ -6,10 +6,13 @@ namespace Paint.Shapes
     public abstract class Shape
     {
         public int Depth { get; }
-        public List<string> Picture { get; }
-        protected Shape(int depth)
+        
+        public char[,] Picture { get; }
+        protected Shape(int pictureSize, int depth)
         {
             Depth = depth;
+            //Picture should be in proportion width:height - 2:1
+            Picture = new char[pictureSize, pictureSize*2];
         }
         protected abstract int CalculateSquare();
         protected abstract int CalculatePerimeter();

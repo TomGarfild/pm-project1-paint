@@ -10,10 +10,14 @@ namespace Paint
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("shapes")]
         public List<Shape> _shapes { get; set; }
+
+        private const int PictureSize = 30;
 
         public Scene()
         {
@@ -27,8 +31,15 @@ namespace Paint
 
         public void DrawScene()
         {
-            Console.SetWindowSize(PictureSize.Width, PictureSize.Height);
-
+            Console.SetWindowSize(ConsoleSize.Width, ConsoleSize.Height);
+            for (int i = 0; i < PictureSize; i++)
+            {
+                for (int j = 0; j < PictureSize*2; j++)
+                {
+                    Console.Write("*");
+                }
+                Console.WriteLine();
+            }
         }
         public void Draw()
         {
@@ -46,16 +57,16 @@ namespace Paint
                 switch (type)
                 {
                     case Shapes.Shapes.Line:
-                        shape = new Line(_shapes.Count + 1);
+                        shape = new Line(PictureSize, _shapes.Count + 1);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(_shapes.Count + 1, IsFilled());
+                        shape = new Triangle(PictureSize, _shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(_shapes.Count + 1, IsFilled());
+                        shape = new Rectangle(PictureSize, _shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(_shapes.Count + 1, IsFilled());
+                        shape = new Circle(PictureSize, _shapes.Count + 1, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

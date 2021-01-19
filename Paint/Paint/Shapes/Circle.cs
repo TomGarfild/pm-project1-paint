@@ -6,8 +6,8 @@ namespace Paint.Shapes
     {
         public bool Filled { get; }
         public int Radius { get; }
-        public Circle(int depth, bool filled)
-            : base(depth)
+        public Circle(int pictureSize, int depth, bool filled)
+            : base(pictureSize, depth)
         {
             Filled = filled;
             Radius = GetRadius();

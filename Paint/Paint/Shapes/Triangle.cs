@@ -7,8 +7,8 @@ namespace Paint.Shapes
         public bool Filled { get; }
         public int Type { get; }
         public int Side { get; }
-        public Triangle(int depth, bool filled)
-            : base(depth)
+        public Triangle(int pictureSize, int depth, bool filled)
+            : base(pictureSize, depth)
         {
             Filled = filled;
             Type = GetShapeKind(new string[] {"Right triangle", "Isosceles triangle"}, "triangle");

@@ -13,9 +13,11 @@ namespace Paint
         {
             var commands = new string[]
                 {"Draw shape", "Change shape", "Remove shape", "Arrange shapes", "Help", "Main menu"};
+            var hasChanged = true;
             while (true)
             {
-                _scene.DrawScene();
+                if (hasChanged) _scene.DrawScene();
+                hasChanged = true;
                 var command = GetInputCommand(commands, _scene.Name);
                 switch (command)
                 {
@@ -32,6 +34,7 @@ namespace Paint
                         _scene.Arrange();
                         break;
                     case 5:
+                        hasChanged = false;
                         var meaning = new string[]
                         {
                             "Draw shape with your parameters.",
