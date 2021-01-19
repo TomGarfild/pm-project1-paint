@@ -10,7 +10,10 @@ namespace Paint.Shapes
         public int Depth { get; set; }
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
-
+        [JsonIgnore]
+        public double Perimeter { get; set; }
+        [JsonIgnore]
+        public double Square { get; set; }
         protected Shape()
         {
         }

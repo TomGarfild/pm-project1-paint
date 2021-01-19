@@ -37,6 +37,9 @@ namespace Paint.Shapes
                 
             }
 
+            Perimeter = Math.PI * Diameter;
+            Square = Math.PI * Diameter * Diameter / 4;
+
         }
         private int GetDiameter()
         {

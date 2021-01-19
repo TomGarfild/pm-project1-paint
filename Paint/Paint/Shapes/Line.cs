@@ -37,6 +37,9 @@ namespace Paint.Shapes
                     }
                     break;
             }
+
+            Perimeter = Length;
+            Square = Length;
         }
         private int GetLength()
         {

@@ -33,6 +33,9 @@ namespace Paint.Shapes
                             }
                         }
                     }
+                    
+                    Perimeter = Side * (2 + Math.Sqrt(2));
+                    Square = Side * Side / 2d;
                     break;
                 case 2:
                     for (int i = pictureSize - Side; i < pictureSize; i++)
@@ -47,6 +50,9 @@ namespace Paint.Shapes
                             }
                         }
                     }
+                    Perimeter = Side * (2 + 2*Math.Sqrt(2));
+                    if (filled) Square = 0;
+                    else Square = Side * Side;
                     break;
             }
         }

@@ -37,6 +37,10 @@ namespace Paint.Shapes
                 }
 
             }
+
+            Perimeter = 2 * Height + 2 * Width;
+            if (filled) Square = Height * Width;
+            else Square = 0;
         }
         private int GetSide(string type)
         {

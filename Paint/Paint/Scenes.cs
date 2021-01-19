@@ -103,11 +103,7 @@ namespace Paint
 
         public void Save()
         {
-            var options = new JsonSerializerOptions
-            {
-                
-            };
-            var json = JsonSerializer.Serialize(_scenes, options);
+            var json = JsonSerializer.Serialize(_scenes);
             File.WriteAllText("scenes.json", json);
         }
     }

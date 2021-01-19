@@ -134,7 +134,31 @@ namespace Paint
 
         }
 
-        private new Shapes.Shapes GetType()
+        public void Filter(string[] options)
+        {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {options[i]}");
+            }
+            Console.Write($"Enter number of the filter: ");
+            if (int.TryParse(Console.ReadLine(), out var index)
+                && index >= 1 && index <= options.Length)
+            {
+                var sortedList = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
+                                        : _shapes.OrderBy(sh => sh.Perimeter).ToList();
+                var i = 0;
+                foreach (var sh in sortedList)
+                {
+                    sh.Depth = i++;
+                }
+                Console.WriteLine($"Shapes were filtered by {options[index-1]}.");
+            }
+            else
+            {
+                Console.WriteLine("Shapes were not filtered.");
+            }
+        }
+        private new static Shapes.Shapes GetType()
         {
             foreach (var s in Enum.GetValues(typeof(Shapes.Shapes)))
             {
@@ -155,12 +179,13 @@ namespace Paint
             return (Shapes.Shapes)type;
         }
 
-        private bool IsFilled()
+        private static bool IsFilled()
         {
             Console.WriteLine("Do you want to fill shape?");
-            Console.WriteLine("Press T to confirm.");
-            if (Console.ReadKey().Key == ConsoleKey.T) return true;
-            return false;
+            Console.Write("Press y to confirm ");
+            var key = Console.ReadKey().Key;
+            Console.WriteLine();
+            return key == ConsoleKey.Y;
         }
 
         public void Update()
