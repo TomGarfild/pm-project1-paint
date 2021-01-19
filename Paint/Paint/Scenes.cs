@@ -49,7 +49,9 @@ namespace Paint
 
             try
             {
-                return _scenes.First(s => s.Id == id);
+                var scene = _scenes.First(s => s.Id == id);
+                scene.Update();
+                return scene;
             }
             catch (InvalidOperationException)
             {
@@ -101,7 +103,11 @@ namespace Paint
 
         public void Save()
         {
-            var json = JsonSerializer.Serialize(_scenes);
+            var options = new JsonSerializerOptions
+            {
+                
+            };
+            var json = JsonSerializer.Serialize(_scenes, options);
             File.WriteAllText("scenes.json", json);
         }
     }

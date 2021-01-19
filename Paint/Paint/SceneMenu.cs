@@ -16,7 +16,11 @@ namespace Paint
             var hasChanged = true;
             while (true)
             {
-                if (hasChanged) _scene.DrawScene();
+                if (hasChanged)
+                {
+                    _scene.Save();
+                    _scene.DrawScene();
+                }
                 hasChanged = true;
                 var command = GetInputCommand(commands, _scene.Name);
                 switch (command)

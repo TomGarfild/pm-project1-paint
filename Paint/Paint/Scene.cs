@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Paint.Shapes;
 
@@ -14,14 +16,14 @@ namespace Paint
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("shapes")]
-        public List<Shape> _shapes { get; set; }
+        private List<Shape> _shapes;
 
-        private const int PictureSize = 30;
+        private const int PictureSize = 25;
 
         public Scene()
         {
         }
+
         public Scene(string name, int id)
         {
             Name = name;
@@ -32,15 +34,23 @@ namespace Paint
         public void DrawScene()
         {
             Console.SetWindowSize(ConsoleSize.Width, ConsoleSize.Height);
-            for (int i = 0; i < PictureSize; i++)
+            for (int i = 0; i < PictureSize+2; i++)
             {
-                for (int j = 0; j < PictureSize*2; j++)
+                Console.Write(' ');
+                for (int j = 0; j < PictureSize*2+2; j++)
                 {
-                    var selected = _shapes.Where(s => s.Picture[i, j] != '\0').Select(s => s.Depth).ToList();
+                    //borders
+                    if (i == 0 || i == PictureSize + 1 ||
+                        j == 0 || j == 2 * PictureSize + 1)
+                    {
+                        Console.Write('#');
+                        continue;
+                    }
+                    var selected = _shapes.Where(s => s.Picture[i-1, j-1] != '\0').Select(s => s.Depth).ToList();
                     
                     if (!selected.Any())
                     {
-                        Console.Write('*');
+                        Console.Write(' ');
                     }
                     else
                     {
@@ -66,16 +76,16 @@ namespace Paint
                 switch (type)
                 {
                     case Shapes.Shapes.Line:
-                        shape = new Line(PictureSize, _shapes.Count + 1);
+                        shape = new Line(PictureSize, _shapes.Count);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(PictureSize, _shapes.Count + 1, IsFilled());
+                        shape = new Triangle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(PictureSize, _shapes.Count + 1, IsFilled());
+                        shape = new Rectangle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(PictureSize, _shapes.Count + 1, IsFilled());
+                        shape = new Circle(PictureSize, _shapes.Count, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -147,6 +157,24 @@ namespace Paint
             Console.WriteLine("Press T to confirm.");
             if (Console.ReadKey().Key == ConsoleKey.T) return true;
             return false;
+        }
+
+        public void Update()
+        {
+            try
+            {
+                var json = File.ReadAllText(Name + ".json");
+                _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
+            }
+            catch (Exception)
+            {
+                _shapes = new List<Shape>();
+            }
+        }
+        public void Save()
+        {
+            var json = JsonSerializer.Serialize(_shapes);
+            File.WriteAllText(Name+".json", json);
         }
     }
 }

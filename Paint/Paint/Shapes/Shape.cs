@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Paint.Shapes
 {
     public abstract class Shape
     {
-        public int Depth { get; }
-        
+        [JsonPropertyName("depth")]
+        public int Depth { get; set; }
+        [JsonPropertyName("picture")]
         public char[,] Picture { get; }
+        protected Shape()
+        {
+        }
         protected Shape(int pictureSize, int depth)
         {
             Depth = depth;

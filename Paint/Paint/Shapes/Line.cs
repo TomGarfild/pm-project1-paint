@@ -10,7 +10,28 @@ namespace Paint.Shapes
             : base(pictureSize, depth)
         {
             Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
-            Length = GetLength();
+            Length = Math.Min(GetLength(), pictureSize);
+            switch (Type)
+            {
+                case 1:
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        Picture[pictureSize - l, 0] = (char)('0'+Depth);
+                    }
+                    break;
+                case 2:
+                    for (int l = 0; l < Length; l++)
+                    {
+                        Picture[pictureSize - 1, l] = (char)('0' + Depth);
+                    }
+                    break;
+                case 3:
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        Picture[pictureSize-l, l-1] = (char)('0' + Depth);
+                    }
+                    break;
+            }
         }
         private int GetLength()
         {
