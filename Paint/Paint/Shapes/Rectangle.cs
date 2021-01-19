@@ -16,8 +16,27 @@ namespace Paint.Shapes
             : base(pictureSize, depth)
         {
             Filled = filled;
-            Width = GetSide("width");
-            Height = GetSide("height");
+            Width = Math.Min(GetSide("width"), pictureSize);
+            Height = Math.Min(GetSide("height"), pictureSize);
+            for (int i = 0; i < Width; i++)
+            {
+                Picture[pictureSize - 1][i] = (char)(Depth + '0');
+                Picture[pictureSize - Height][i] = (char)(Depth + '0');
+            }
+
+            for (int i = pictureSize - Height + 1; i < pictureSize - 1; i++)
+            {
+                Picture[i][0] = (char)(Depth + '0');
+                Picture[i][Width-1] = (char)(Depth + '0');
+                if (filled)
+                {
+                    for (int j = 1; j < Width-1; j++)
+                    {
+                        Picture[i][j] = (char)(Depth + '0');
+                    }
+                }
+
+            }
         }
         private int GetSide(string type)
         {
@@ -25,16 +44,6 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var size)
                 && size >= 1) return size;
             return 1;
-        }
-
-        protected override int CalculateSquare()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override int CalculatePerimeter()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

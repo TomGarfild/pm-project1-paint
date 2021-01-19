@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Paint.Shapes
 {
-    public abstract class Shape
+    public class Shape
     {
         [JsonPropertyName("depth")]
         public int Depth { get; set; }
@@ -28,8 +28,6 @@ namespace Paint.Shapes
                 }
             }
         }
-        protected abstract int CalculateSquare();
-        protected abstract int CalculatePerimeter();
         protected int GetShapeKind(string[] types, string shapeName)
         {
             for (int i = 0; i < types.Length; i++)

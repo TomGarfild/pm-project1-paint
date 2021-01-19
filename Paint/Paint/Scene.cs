@@ -161,8 +161,15 @@ namespace Paint
 
         public void Update()
         {
-            var json = File.ReadAllText(Name + ".json");
-            _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
+            try
+            {
+                var json = File.ReadAllText(Name + ".json");
+                _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
+            }
+            catch (Exception)
+            {
+                _shapes = new List<Shape>();
+            }
         }
         public void Save()
         {
