@@ -46,7 +46,7 @@ namespace Paint
                         Console.Write('#');
                         continue;
                     }
-                    var selected = _shapes.Where(s => s.Picture[i-1, j-1] != '\0').Select(s => s.Depth).ToList();
+                    var selected = _shapes.Where(s => s.Picture[i-1][j-1] != '\0').Select(s => s.Depth).ToList();
                     
                     if (!selected.Any())
                     {
@@ -161,20 +161,13 @@ namespace Paint
 
         public void Update()
         {
-            try
-            {
-                var json = File.ReadAllText(Name + ".json");
-                _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
-            }
-            catch (Exception)
-            {
-                _shapes = new List<Shape>();
-            }
+            var json = File.ReadAllText(Name + ".json");
+            _shapes = JsonSerializer.Deserialize<List<Shape>>(json);
         }
         public void Save()
         {
             var json = JsonSerializer.Serialize(_shapes);
-            File.WriteAllText(Name+".json", json);
+            File.WriteAllText(Name + ".json", json);
         }
     }
 }

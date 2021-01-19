@@ -7,6 +7,11 @@ namespace Paint.Shapes
         public bool Filled { get; }
         public int Type { get; }
         public int Side { get; }
+
+        public Triangle() : base()
+        {
+
+        }
         public Triangle(int pictureSize, int depth, bool filled)
             : base(pictureSize, depth)
         {

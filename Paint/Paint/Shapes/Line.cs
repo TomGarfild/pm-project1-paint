@@ -6,6 +6,11 @@ namespace Paint.Shapes
     {
         public int Length { get; }
         public int Type { get; }
+
+        public Line() : base()
+        {
+
+        }
         public Line(int pictureSize, int depth)
             : base(pictureSize, depth)
         {
@@ -16,19 +21,19 @@ namespace Paint.Shapes
                 case 1:
                     for (int l = 1; l <= Length; l++)
                     {
-                        Picture[pictureSize - l, 0] = (char)('0'+Depth);
+                        Picture[pictureSize - l][0] = (char)('0'+Depth);
                     }
                     break;
                 case 2:
                     for (int l = 0; l < Length; l++)
                     {
-                        Picture[pictureSize - 1, l] = (char)('0' + Depth);
+                        Picture[pictureSize - 1][l] = (char)('0' + Depth);
                     }
                     break;
                 case 3:
                     for (int l = 1; l <= Length; l++)
                     {
-                        Picture[pictureSize-l, l-1] = (char)('0' + Depth);
+                        Picture[pictureSize-l][l-1] = (char)('0' + Depth);
                     }
                     break;
             }

@@ -9,7 +9,8 @@ namespace Paint.Shapes
         [JsonPropertyName("depth")]
         public int Depth { get; set; }
         [JsonPropertyName("picture")]
-        public char[,] Picture { get; }
+        public List<List<char>> Picture { get; set; }
+
         protected Shape()
         {
         }
@@ -17,7 +18,15 @@ namespace Paint.Shapes
         {
             Depth = depth;
             //Picture should be in proportion width:height - 2:1
-            Picture = new char[pictureSize, pictureSize*2];
+            Picture = new List<List<char>>();
+            for (int i = 0; i < pictureSize; i++)
+            {
+                Picture.Add(new List<char>());
+                for (int j = 0; j < pictureSize * 2; j++)
+                {
+                    Picture[i].Add('\0');
+                }
+            }
         }
         protected abstract int CalculateSquare();
         protected abstract int CalculatePerimeter();

@@ -7,6 +7,11 @@ namespace Paint.Shapes
         public bool Filled { get; }
         public int Width { get; }
         public int Height { get; }
+
+        public Rectangle() : base()
+        {
+
+        }
         public Rectangle(int pictureSize, int depth, bool filled)
             : base(pictureSize, depth)
         {
