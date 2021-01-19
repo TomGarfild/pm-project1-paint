@@ -36,7 +36,16 @@ namespace Paint
             {
                 for (int j = 0; j < PictureSize*2; j++)
                 {
-                    Console.Write("*");
+                    var selected = _shapes.Where(s => s.Picture[i, j] != '\0').Select(s => s.Depth).ToList();
+                    
+                    if (!selected.Any())
+                    {
+                        Console.Write('*');
+                    }
+                    else
+                    {
+                        Console.Write(selected.Min());
+                    }
                 }
                 Console.WriteLine();
             }
