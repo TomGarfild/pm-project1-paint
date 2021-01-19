@@ -3,8 +3,8 @@
     public class Circle : Shape
     {
         public bool Filled { get; }
-        public Circle(int size, int depth, bool filled)
-            : base(size, depth)
+        public Circle(int depth, bool filled)
+            : base(depth)
         {
             Filled = filled;
         }

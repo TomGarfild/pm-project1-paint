@@ -28,6 +28,7 @@ namespace Paint
         public void DrawScene(int width, int height)
         {
             Console.SetWindowSize(width, height);
+
         }
         public void Draw()
         {
@@ -41,21 +42,20 @@ namespace Paint
             else
             {
                 var type = GetType();
-                var size = GetSize(new string[] {"small", "medium", "large"});
                 Shape shape;
                 switch (type)
                 {
                     case Shapes.Shapes.Line:
-                        shape = new Line(size, _shapes.Count + 1);
+                        shape = new Line(_shapes.Count + 1);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(size, _shapes.Count + 1, IsFilled());
+                        shape = new Triangle(_shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(size, _shapes.Count + 1, IsFilled());
+                        shape = new Rectangle(_shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(size, _shapes.Count + 1, IsFilled());
+                        shape = new Circle(_shapes.Count + 1, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -119,20 +119,6 @@ namespace Paint
                 Console.Write("Enter number of the shape that you choose: ");
             }
             return (Shapes.Shapes)type;
-        }
-
-        private int GetSize(string[] sizes)
-        {
-            for (int i = 0; i < sizes.Length; i++)
-            {
-                Console.WriteLine($"{i+1} - {sizes[i]}");
-            }
-
-            Console.Write("Enter number of the size for your shape: ");
-            if (int.TryParse(Console.ReadLine(), out var key)
-                && key >= 1 && key <= sizes.Length) return key;
-            //else return small size
-            return 1;
         }
 
         private bool IsFilled()

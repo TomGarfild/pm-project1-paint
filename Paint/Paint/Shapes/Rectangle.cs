@@ -3,8 +3,8 @@
     public class Rectangle : Shape
     {
         public bool Filled { get; }
-        public Rectangle(int size, int depth, bool filled)
-            : base(size, depth)
+        public Rectangle(int depth, bool filled)
+            : base(depth)
         {
             Filled = filled;
         }
