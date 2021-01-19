@@ -25,8 +25,14 @@ namespace Paint
             _shapes = new List<Shape>();
         }
 
+        public void DrawScene(int width, int height)
+        {
+            Console.SetWindowSize(width, height);
+
+        }
         public void Draw()
         {
+            
             //Max depth is 10 (from 0 to 9)
             if (_shapes.Count == 10)
             {
@@ -36,21 +42,20 @@ namespace Paint
             else
             {
                 var type = GetType();
-                var size = GetSize(new string[] {"small", "medium", "large"});
                 Shape shape;
                 switch (type)
                 {
                     case Shapes.Shapes.Line:
-                        shape = new Line(size, _shapes.Count + 1);
+                        shape = new Line(_shapes.Count + 1);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(size, _shapes.Count + 1);
+                        shape = new Triangle(_shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(size, _shapes.Count + 1);
+                        shape = new Rectangle(_shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(size, _shapes.Count + 1);
+                        shape = new Circle(_shapes.Count + 1, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -116,21 +121,12 @@ namespace Paint
             return (Shapes.Shapes)type;
         }
 
-        private int GetSize(string[] sizes)
+        private bool IsFilled()
         {
-            for (int i = 0; i < sizes.Length; i++)
-            {
-                Console.WriteLine($"{i+1} - {sizes[i]}");
-            }
-
-            Console.Write("Enter number of the size for your shape: ");
-            var key = Console.ReadKey().KeyChar;
-            if (key >= '1' && key <= (char)(sizes.Length + '0'))
-            {
-                return (int) (key - '0');
-            }
-            //else return small size
-            return 1;
+            Console.WriteLine("Do you want to fill shape?");
+            Console.WriteLine("Press T to confirm.");
+            if (Console.ReadKey().Key == ConsoleKey.T) return true;
+            return false;
         }
     }
 }

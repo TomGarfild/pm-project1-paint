@@ -4,7 +4,7 @@ namespace Paint
 {
     public class Menu
     {
-        public virtual void Start()
+        public virtual void Start(int width, int height)
         {
             Console.WriteLine("Hello, in Console Paint");
             var scenes = new Scenes();
@@ -29,7 +29,7 @@ namespace Paint
                             if (currentScene == default(Scene)) break;
                         }
                         var sceneMenu = new SceneMenu(currentScene);
-                        sceneMenu.Start();
+                        sceneMenu.Start(width, height);
                         break;
                     case 3:
                         scenes.ShowAll();
