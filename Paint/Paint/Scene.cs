@@ -25,8 +25,13 @@ namespace Paint
             _shapes = new List<Shape>();
         }
 
+        public void DrawScene(int width, int height)
+        {
+            Console.SetWindowSize(width, height);
+        }
         public void Draw()
         {
+            
             //Max depth is 10 (from 0 to 9)
             if (_shapes.Count == 10)
             {
@@ -44,13 +49,13 @@ namespace Paint
                         shape = new Line(size, _shapes.Count + 1);
                         break;
                     case Shapes.Shapes.Triangle:
-                        shape = new Triangle(size, _shapes.Count + 1);
+                        shape = new Triangle(size, _shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(size, _shapes.Count + 1);
+                        shape = new Rectangle(size, _shapes.Count + 1, IsFilled());
                         break;
                     case Shapes.Shapes.Circle:
-                        shape = new Circle(size, _shapes.Count + 1);
+                        shape = new Circle(size, _shapes.Count + 1, IsFilled());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -124,13 +129,18 @@ namespace Paint
             }
 
             Console.Write("Enter number of the size for your shape: ");
-            var key = Console.ReadKey().KeyChar;
-            if (key >= '1' && key <= (char)(sizes.Length + '0'))
-            {
-                return (int) (key - '0');
-            }
+            if (int.TryParse(Console.ReadLine(), out var key)
+                && key >= 1 && key <= sizes.Length) return key;
             //else return small size
             return 1;
+        }
+
+        private bool IsFilled()
+        {
+            Console.WriteLine("Do you want to fill shape?");
+            Console.WriteLine("Press T to confirm.");
+            if (Console.ReadKey().Key == ConsoleKey.T) return true;
+            return false;
         }
     }
 }

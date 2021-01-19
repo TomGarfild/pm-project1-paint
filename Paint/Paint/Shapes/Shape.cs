@@ -10,5 +10,7 @@
             Size = size;
             Depth = depth;
         }
+        protected abstract int CalculateSquare();
+        protected abstract int CalculatePerimeter();
     }
 }

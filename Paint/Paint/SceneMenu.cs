@@ -9,12 +9,13 @@ namespace Paint
         {
             _scene = currentScene;
         }
-        public override void Start()
+        public override void Start(int width, int height)
         {
             var commands = new string[]
                 {"Draw shape", "Change shape", "Remove shape", "Arrange shapes", "Help", "Main menu"};
             while (true)
             {
+                _scene.DrawScene(width, height);
                 var command = GetInputCommand(commands, _scene.Name);
                 switch (command)
                 {
