@@ -120,6 +120,10 @@ namespace Paint
                 {
                     _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
                     Console.WriteLine($"Shape with {depth} was successfully removed from current scene.");
+                    foreach (var sh in _shapes)
+                    {
+                        if (sh.Depth > depth) sh.Depth--;
+                    }
                 }
                 
             }
