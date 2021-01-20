@@ -21,7 +21,7 @@ namespace Paint
                         if (command == 1)
                         {
                             currentScene = scenes.NewScene();
-                            scenes.Save();      
+                            scenes.Save();
                         }
                         else
                         {

@@ -35,7 +35,7 @@ namespace Paint
             }
             var scene = new Scene(name, _lastId++);
             _scenes.Add(scene);
-            Console.WriteLine("New scene was created successfully.\nYour will be redirected to menu of this scene.");
+            Console.WriteLine("New scene was created successfully.\nYou will be redirected to menu of this scene.");
             return scene;
         }
         public Scene OpenScene()
