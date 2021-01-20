@@ -18,38 +18,7 @@ namespace Paint.Shapes
             Filled = filled;
             Diameter = Math.Min(GetDiameter()+2, pictureSize)-2;
             Color = GetColor();
-            if (Diameter == 1)
-            {
-                Picture[pictureSize - 1][0] = (char)(Depth + '0');
-            }
-            else if (Diameter == 2)
-            {
-                Picture[pictureSize - 1][0] = (char)(Depth + '0');
-                Picture[pictureSize - 1][1] = (char)(Depth + '0');
-                Picture[pictureSize - 2][0] = (char)(Depth + '0');
-                Picture[pictureSize - 2][1] = (char)(Depth + '0');
-            }
-            else
-            {
-                for (int i = 1; i < 2 * Diameter - 1; i++)
-                {
-                    Picture[pictureSize - 1][i] = (char)(Depth + '0');
-                    Picture[pictureSize - Diameter][i] = (char)(Depth + '0');
-                }
-                //To Save proportion multiply by 2
-                for (int i = pictureSize - Diameter + 1; i < pictureSize - 1; i++)
-                {
-                    Picture[i][0] = (char)(Depth + '0');
-                    Picture[i][2 * Diameter - 1] = (char)(Depth + '0');
-                    if (Filled)
-                    {
-                        for (int j = 1; j < 2 * Diameter; j++)
-                        {
-                            Picture[i][j] = (char)(Depth + '0');
-                        }
-                    }
-                }
-            }
+            ChangePicture();
             Perimeter = Math.PI * Diameter;
             if (Filled) Square = Math.PI * Diameter * Diameter / 4;
             else Square = 0;
@@ -62,7 +31,44 @@ namespace Paint.Shapes
                 && d >= 1) return d;
             return 1;
         }
+        public override void ChangePicture()
+        {
+            Reset();
+            X = Math.Min(Math.Max(0, X), 2*PictureSize - 2*Diameter);
+            Y = Math.Min(Math.Max(0, Y), PictureSize - Diameter);
+            if (Diameter == 1)
+            {
+                Picture[PictureSize - 1-Y][X] = (char)(Depth + '0');
+            }
+            else if (Diameter == 2)
+            {
+                Picture[PictureSize - 1-Y][X] = (char)(Depth + '0');
+                Picture[PictureSize - 1-Y][X+1] = (char)(Depth + '0');
+                Picture[PictureSize - 2-Y][X] = (char)(Depth + '0');
+                Picture[PictureSize - 2-Y][X+1] = (char)(Depth + '0');
+            }
+            else
+            {
+                for (int i = 1; i < 2 * Diameter - 1; i++)
+                {
+                    Picture[PictureSize - 1-Y][X+i] = (char)(Depth + '0');
+                    Picture[PictureSize - Diameter-Y][X+i] = (char)(Depth + '0');
+                }
+                //To Save proportion multiply by 2
+                for (int i = PictureSize - Diameter + 1; i < PictureSize - 1; i++)
+                {
+                    Picture[i-Y][X] = (char)(Depth + '0');
+                    Picture[i-Y][2 * Diameter - 1 + X] = (char)(Depth + '0');
+                    if (Filled)
+                    {
+                        for (int j = 1; j < 2 * Diameter; j++)
+                        {
+                            Picture[i-Y][j+X] = (char)(Depth + '0');
+                        }
+                    }
+                }
+            }
+        }
 
-        
     }
 }

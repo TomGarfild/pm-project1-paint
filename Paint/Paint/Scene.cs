@@ -167,7 +167,7 @@ namespace Paint
                             _shapes[depth].Y += distance;
                             break;
                         case 5:
-                            _shapes[depth].Y += distance;
+                            _shapes[depth].Y -= distance;
                             break;
                     }
                     _shapes[depth].ChangePicture();
