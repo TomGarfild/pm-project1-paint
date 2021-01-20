@@ -17,9 +17,8 @@ namespace Paint.Shapes
         {
             Filled = filled;
             Type = GetShapeKind(new string[] {"Right triangle", "Isosceles triangle"}, "triangle");
-            Side = Math.Min(GetSide(), pictureSize/2);
+            Side = Math.Min(GetSide(), pictureSize);
             Color = GetColor();
-            ChangePicture();
             switch (Type)
             {
                 case 1:
@@ -28,11 +27,14 @@ namespace Paint.Shapes
                     else Square = 0;
                     break;
                 case 2:
+                    Side = Math.Min(Side, pictureSize / 2);
                     Perimeter = Side * (2 + 2 * Math.Sqrt(2));
                     if (Filled) Square = Side * Side;
                     else Square = 0;
                     break;
             }
+            ChangePicture();
+            
         }
 
         private int GetSide()
