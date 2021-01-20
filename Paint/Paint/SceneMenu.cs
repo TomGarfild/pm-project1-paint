@@ -12,7 +12,7 @@ namespace Paint
         public override void Start()
         {
             var commands = new string[]
-                {"Draw shape", "Change shape", "Remove shape", "Arrange shapes", "Filter", "Help", "Main menu"};
+                {"Draw shape","Remove shape", "Arrange shapes", "Filter", "Help", "Main menu"};
             var hasChanged = true;
             while (true)
             {
@@ -29,23 +29,19 @@ namespace Paint
                         _scene.Draw();
                         break;
                     case 2:
-                        _scene.Change();
-                        break;
-                    case 3:
                         _scene.Remove();
                         break;
-                    case 4:
-                        _scene.Arrange();
+                    case 3:
+                        _scene.Arrange(new string[] { "swap shapes"});
                         break;
-                    case 5:
+                    case 4:
                         _scene.Filter(new string[]{"square", "perimeter"});
                         break;
-                    case 6:
+                    case 5:
                         hasChanged = false;
                         var meaning = new string[]
                         {
                             "Draw shape with your parameters.",
-                            "Change parameters of chosen shape.",
                             "Remove shape by its depth index.",
                             "Move shapes in the current scene.",
                             "Filter shapes by some parameters.",
@@ -54,7 +50,7 @@ namespace Paint
                         };
                         PrintHelp(commands, meaning);
                         break;
-                    case 7:
+                    case 6:
                         //Return to main menu
                         return;
                 }

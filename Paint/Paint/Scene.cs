@@ -43,6 +43,7 @@ namespace Paint
                     if (i == 0 || i == PictureSize + 1 ||
                         j == 0 || j == 2 * PictureSize + 1)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write('#');
                         continue;
                     }
@@ -54,11 +55,15 @@ namespace Paint
                     }
                     else
                     {
-                        Console.Write(selected.Min());
+                        var depth = selected.Min();
+                        Console.ForegroundColor = _shapes[depth].Color;
+                        Console.Write(depth);
                     }
                 }
                 Console.WriteLine();
             }
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void Draw()
         {
@@ -72,33 +77,17 @@ namespace Paint
             else
             {
                 var type = GetType();
-                Shape shape;
-                switch (type)
+                Shape shape = type switch
                 {
-                    case Shapes.Shapes.Line:
-                        shape = new Line(PictureSize, _shapes.Count);
-                        break;
-                    case Shapes.Shapes.Triangle:
-                        shape = new Triangle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    case Shapes.Shapes.Circle:
-                        shape = new Circle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    Shapes.Shapes.Line => new Line(PictureSize, _shapes.Count),
+                    Shapes.Shapes.Triangle => new Triangle(PictureSize, _shapes.Count, IsFilled()),
+                    Shapes.Shapes.Rectangle => new Rectangle(PictureSize, _shapes.Count, IsFilled()),
+                    Shapes.Shapes.Circle => new Circle(PictureSize, _shapes.Count, IsFilled()),
+                    _ => throw new ArgumentException(),
+                };
                 _shapes.Add(shape);
-
             }
         }
-        public void Change()
-        {
-
-        }
-
         public void Remove()
         {
             int depth;
@@ -115,23 +104,50 @@ namespace Paint
             else
             {
                 Console.WriteLine($"Are you sure about removing shape with depth {depth}?");
-                Console.WriteLine("Press y to confirm.");
+                Console.Write ("Press y to confirm ");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine();
                     _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
-                    Console.WriteLine($"Shape with {depth} was successfully removed from current scene.");
-                    foreach (var sh in _shapes)
+                    Console.WriteLine($"Shape {depth} was successfully removed from current scene.");
+                    foreach (var sh in _shapes.Where(sh => sh.Depth > depth))
                     {
-                        if (sh.Depth > depth) sh.Depth--;
+                        sh.Depth--;
                     }
                 }
-                
             }
         }
 
-        public void Arrange()
+        public void Arrange(string[] options)
         {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {options[i]}");
+            }
+            Console.Write($"Enter number how do you want to arrange shapes: ");
+            if (int.TryParse(Console.ReadLine(), out var index)
+                && index >= 1 && index <= options.Length)
+            {
+                if (index == 1)
+                {
+                    var depth = new int[2];
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Console.Write($"Enter depth of {i+1} shape: ");
+                        if (!int.TryParse(Console.ReadLine(), out depth[i]) || depth[i] < 0 || depth[i] >= _shapes.Count())
+                        {
+                            Console.WriteLine("Such depth doesn't exist.");
+                            return;
+                        }
+                    }
 
+                    Swap(_shapes, depth[0], depth[1]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sorry, but such command doesn't exist.");
+            }
         }
 
         public void Filter(string[] options)
@@ -144,10 +160,10 @@ namespace Paint
             if (int.TryParse(Console.ReadLine(), out var index)
                 && index >= 1 && index <= options.Length)
             {
-                var sortedList = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
+                _shapes = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
                                         : _shapes.OrderBy(sh => sh.Perimeter).ToList();
                 var i = 0;
-                foreach (var sh in sortedList)
+                foreach (var sh in _shapes)
                 {
                     sh.Depth = i++;
                 }
@@ -204,6 +220,16 @@ namespace Paint
         {
             var json = JsonSerializer.Serialize(_shapes);
             File.WriteAllText(Name + ".json", json);
+        }
+
+        private static void Swap(IList<Shape> list, int i, int j)
+        {
+            var tDepth = list[i].Depth;
+            list[i].Depth = list[j].Depth;
+            list[j].Depth = tDepth;
+            var tShape = list[i];
+            list[i] = list[j];
+            list[j] = tShape;
         }
     }
 }

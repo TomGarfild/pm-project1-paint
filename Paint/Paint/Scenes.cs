@@ -35,7 +35,7 @@ namespace Paint
             }
             var scene = new Scene(name, _lastId++);
             _scenes.Add(scene);
-            Console.WriteLine("New scene was created successfully.\nYour will be redirected to menu of this scene.");
+            Console.WriteLine("New scene was created successfully.\nYou will be redirected to menu of this scene.");
             return scene;
         }
         public Scene OpenScene()
@@ -72,11 +72,12 @@ namespace Paint
             if (_scenes.Exists(s => s.Id == id))
             {
                 Console.WriteLine($"Are you sure about removing scene with id {id}?");
-                Console.WriteLine("Press y to confirm.");
+                Console.Write("Press y to confirm ");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine();
                     _scenes.Remove(_scenes.First(s => s.Id == id));
-                    Console.WriteLine($"\nScene with id {id} was successfully removed.");
+                    Console.WriteLine($"Scene with id {id} was successfully removed.");
                     //update last id
                     _lastId = _scenes.Last().Id + 1;
                     return true;

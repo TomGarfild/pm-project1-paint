@@ -8,8 +8,18 @@ namespace Paint.Shapes
     {
         [JsonPropertyName("depth")]
         public int Depth { get; set; }
+        
+        [JsonPropertyName("x")]
+        public int X { get; set; }
+
+        [JsonPropertyName("y")]
+        public int Y { get; set; }
+
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
+
+        [JsonPropertyName("color")]
+        public ConsoleColor Color { get; set; }
         [JsonIgnore]
         public double Perimeter { get; set; }
         [JsonIgnore]
@@ -20,6 +30,8 @@ namespace Paint.Shapes
         protected Shape(int pictureSize, int depth)
         {
             Depth = depth;
+            X = 0;
+            Y = pictureSize - 1;
             //Picture should be in proportion width:height - 2:1
             Picture = new List<List<char>>();
             for (int i = 0; i < pictureSize; i++)
@@ -41,6 +53,17 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var key)
                 && key >= 1 && key <= types.Length) return key;
             return 1;
+        }
+
+        protected ConsoleColor GetColor()
+        {
+            Console.WriteLine("Enter color of your shape.(Default value is white)");
+            if (Enum.TryParse<ConsoleColor>(Console.ReadLine(), true, out var res))
+            {
+                return res;
+            }
+
+            return ConsoleColor.White;
         }
     }
 }

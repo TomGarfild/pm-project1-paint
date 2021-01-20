@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 
 namespace Paint.Shapes
 {
@@ -18,6 +19,7 @@ namespace Paint.Shapes
             Filled = filled;
             Width = Math.Min(GetSide("width"), pictureSize);
             Height = Math.Min(GetSide("height"), pictureSize);
+            Color = GetColor();
             for (int i = 0; i < Width; i++)
             {
                 Picture[pictureSize - 1][i] = (char)(Depth + '0');
@@ -28,7 +30,7 @@ namespace Paint.Shapes
             {
                 Picture[i][0] = (char)(Depth + '0');
                 Picture[i][Width-1] = (char)(Depth + '0');
-                if (filled)
+                if (Filled)
                 {
                     for (int j = 1; j < Width-1; j++)
                     {
@@ -39,7 +41,7 @@ namespace Paint.Shapes
             }
 
             Perimeter = 2 * Height + 2 * Width;
-            if (filled) Square = Height * Width;
+            if (Filled) Square = Height * Width;
             else Square = 0;
         }
         private int GetSide(string type)
