@@ -22,41 +22,19 @@ namespace Paint.Shapes
             switch (Type)
             {
                 case 1:
-                    for (int i = pictureSize - Side; i < pictureSize; i++)
-                    {
-                        Picture[i][0] = (char)('0' + Depth);
-                        Picture[i][i-pictureSize+Side] = (char)('0' + Depth);
-                        if (Filled || i == pictureSize - 1)
-                        {
-                            for (int j = 1; j < i - pictureSize + Side; j++)
-                            {
-                                Picture[i][j] = (char)('0' + Depth);
-                            }
-                        }
-                    }
-                    
                     Perimeter = Side * (2 + Math.Sqrt(2));
                     if (Filled) Square = Side * Side / 2d;
                     else Square = 0;
                     break;
                 case 2:
-                    for (int i = pictureSize - Side; i < pictureSize; i++)
-                    {
-                        Picture[i][pictureSize-i-1] = (char)('0' + Depth);
-                        Picture[i][i - pictureSize + 2*Side] = (char)('0' + Depth);
-                        if (Filled || i == pictureSize - 1)
-                        {
-                            for (int j = pictureSize-i; j < i - pictureSize + 2 * Side; j++)
-                            {
-                                Picture[i][j] = (char)('0' + Depth);
-                            }
-                        }
-                    }
-                    Perimeter = Side * (2 + 2*Math.Sqrt(2));
-                    if (Filled) Square = Side* Side;
+                    Side = Math.Min(Side, pictureSize / 2);
+                    Perimeter = Side * (2 + 2 * Math.Sqrt(2));
+                    if (Filled) Square = Side * Side;
                     else Square = 0;
                     break;
             }
+            ChangePicture();
+            
         }
 
         private int GetSide()
@@ -65,6 +43,45 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var size)
                 && size >= 1) return size;
             return 1;
+        }
+        public override void ChangePicture()
+        {
+            Reset();
+            
+            Y = Math.Min(Math.Max(0, Y), PictureSize - Side);
+            switch (Type)
+            {
+                case 1:
+                    X = Math.Min(Math.Max(0, X), PictureSize - Side);
+                    for (int i = PictureSize - Side; i < PictureSize; i++)
+                    {
+                        Picture[i-Y][X] = (char)('0' + Depth);
+                        Picture[i - Y][i - PictureSize + Side+X] = (char)('0' + Depth);
+                        if (Filled || i == PictureSize - 1)
+                        {
+                            for (int j = 1; j < i - PictureSize + Side; j++)
+                            {
+                                Picture[i-Y][j+X] = (char)('0' + Depth);
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    X = Math.Min(Math.Max(0, X), PictureSize - 2*Side);
+                    for (int i = PictureSize - Side; i < PictureSize; i++)
+                    {
+                        Picture[i-Y][PictureSize - i - 1+X] = (char)('0' + Depth);
+                        Picture[i-Y][i - PictureSize + 2*Side+X] = (char)('0' + Depth);
+                        if (Filled || i == PictureSize - 1)
+                        {
+                            for (int j = PictureSize - i; j < i - PictureSize + 2*Side; j++)
+                            {
+                                Picture[i-Y][j+X] = (char)('0' + Depth);
+                            }
+                        }
+                    }
+                    break;
+            }
         }
     }
 }

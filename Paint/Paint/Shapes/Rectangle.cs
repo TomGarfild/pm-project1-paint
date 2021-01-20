@@ -17,28 +17,11 @@ namespace Paint.Shapes
             : base(pictureSize, depth)
         {
             Filled = filled;
-            Width = Math.Min(GetSide("width"), pictureSize);
-            Height = Math.Min(GetSide("height"), pictureSize);
+            Width = Math.Min(GetSide("width"), PictureSize);
+            Height = Math.Min(GetSide("height"), PictureSize);
             Color = GetColor();
-            for (int i = 0; i < Width; i++)
-            {
-                Picture[pictureSize - 1][i] = (char)(Depth + '0');
-                Picture[pictureSize - Height][i] = (char)(Depth + '0');
-            }
 
-            for (int i = pictureSize - Height + 1; i < pictureSize - 1; i++)
-            {
-                Picture[i][0] = (char)(Depth + '0');
-                Picture[i][Width-1] = (char)(Depth + '0');
-                if (Filled)
-                {
-                    for (int j = 1; j < Width-1; j++)
-                    {
-                        Picture[i][j] = (char)(Depth + '0');
-                    }
-                }
-
-            }
+            ChangePicture();
 
             Perimeter = 2 * Height + 2 * Width;
             if (Filled) Square = Height * Width;
@@ -50,6 +33,32 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var size)
                 && size >= 1) return size;
             return 1;
+        }
+
+        public override void ChangePicture()
+        {
+            Reset();
+            X = Math.Min(Math.Max(0, X), PictureSize-Width);
+            Y = Math.Min(Math.Max(0, Y), PictureSize - Height);
+            for (int i = 0; i < Width; i++)
+            {
+                Picture[PictureSize - 1 - Y][i + X] = (char)(Depth + '0');
+                Picture[PictureSize - Height - Y][i + X] = (char)(Depth + '0');
+            }
+
+            for (int i = PictureSize - Height + 1; i < PictureSize - 1; i++)
+            {
+                Picture[i-Y][X] = (char)(Depth + '0');
+                Picture[i-Y][Width - 1+X] = (char)(Depth + '0');
+                if (Filled)
+                {
+                    for (int j = 1; j < Width - 1; j++)
+                    {
+                        Picture[i-Y][j+X] = (char)(Depth + '0');
+                    }
+                }
+
+            }
         }
     }
 }

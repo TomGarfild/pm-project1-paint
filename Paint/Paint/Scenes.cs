@@ -27,12 +27,7 @@ namespace Paint
         public Scene NewScene()
         {
             Console.WriteLine("Enter name of this scene");
-            var name = Console.ReadLine();
-            while (_scenes.Exists(s => s.Name == name))
-            {
-                Console.WriteLine("Sorry, but scene with such name already exists. Try again.");
-                name = Console.ReadLine();
-            }
+            var name = GetName();
             var scene = new Scene(name, _lastId++);
             _scenes.Add(scene);
             Console.WriteLine("New scene was created successfully.\nYou will be redirected to menu of this scene.");
@@ -106,6 +101,28 @@ namespace Paint
         {
             var json = JsonSerializer.Serialize(_scenes);
             File.WriteAllText("scenes.json", json);
+        }
+
+        private string GetName()
+        {
+            var name = Console.ReadLine()?.Trim();
+            while (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("Sorry, name cannot be empty. Try again.");
+                name = Console.ReadLine()?.Trim();
+            }
+            while (_scenes.Exists(s => s.Name == name))
+            {
+                Console.WriteLine("Sorry, but scene with such name already exists. Try again.");
+                name = Console.ReadLine()?.Trim();
+                while (string.IsNullOrEmpty(name))
+                {
+                    Console.WriteLine("Sorry, name cannot be empty. Try again.");
+                    name = Console.ReadLine()?.Trim();
+                }
+            }
+
+            return name;
         }
     }
 }
