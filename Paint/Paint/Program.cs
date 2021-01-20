@@ -9,7 +9,14 @@ namespace Paint
         {
             Console.SetWindowSize(ConsoleSize.Width, ConsoleSize.Height);
             var menu = new Menu();
-            menu.Start();
+            try
+            {
+                menu.Start();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Something went wrong");
+            }
         }
     }
 }

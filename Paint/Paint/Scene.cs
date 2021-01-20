@@ -77,26 +77,15 @@ namespace Paint
             else
             {
                 var type = GetType();
-                Shape shape;
-                switch (type)
+                Shape shape = type switch
                 {
-                    case Shapes.Shapes.Line:
-                        shape = new Line(PictureSize, _shapes.Count);
-                        break;
-                    case Shapes.Shapes.Triangle:
-                        shape = new Triangle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    case Shapes.Shapes.Rectangle:
-                        shape = new Rectangle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    case Shapes.Shapes.Circle:
-                        shape = new Circle(PictureSize, _shapes.Count, IsFilled());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    Shapes.Shapes.Line => new Line(PictureSize, _shapes.Count),
+                    Shapes.Shapes.Triangle => new Triangle(PictureSize, _shapes.Count, IsFilled()),
+                    Shapes.Shapes.Rectangle => new Rectangle(PictureSize, _shapes.Count, IsFilled()),
+                    Shapes.Shapes.Circle => new Circle(PictureSize, _shapes.Count, IsFilled()),
+                    _ => throw new ArgumentException(),
+                };
                 _shapes.Add(shape);
-
             }
         }
         public void Remove()
@@ -121,9 +110,9 @@ namespace Paint
                     Console.WriteLine();
                     _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
                     Console.WriteLine($"Shape {depth} was successfully removed from current scene.");
-                    foreach (var sh in _shapes)
+                    foreach (var sh in _shapes.Where(sh => sh.Depth > depth))
                     {
-                        if (sh.Depth > depth) sh.Depth--;
+                        sh.Depth--;
                     }
                 }
             }

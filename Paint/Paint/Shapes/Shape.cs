@@ -12,8 +12,9 @@ namespace Paint.Shapes
         [JsonPropertyName("x")]
         public int X { get; set; }
 
-        [JsonPropertyName("Y")]
+        [JsonPropertyName("y")]
         public int Y { get; set; }
+
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
 
