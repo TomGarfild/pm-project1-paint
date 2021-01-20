@@ -17,27 +17,7 @@ namespace Paint.Shapes
             Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
             Length = Math.Min(GetLength(), pictureSize);
             Color = GetColor();
-            switch (Type)
-            {
-                case 1:
-                    for (int l = 1; l <= Length; l++)
-                    {
-                        Picture[pictureSize - l][0] = (char)('0'+Depth);
-                    }
-                    break;
-                case 2:
-                    for (int l = 0; l < Length; l++)
-                    {
-                        Picture[pictureSize - 1][l] = (char)('0' + Depth);
-                    }
-                    break;
-                case 3:
-                    for (int l = 1; l <= Length; l++)
-                    {
-                        Picture[pictureSize-l][l-1] = (char)('0' + Depth);
-                    }
-                    break;
-            }
+            ChangePicture();
 
             Perimeter = Length;
             Square = Length;
@@ -48,6 +28,39 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var size)
                 && size >= 1) return size;
             return 1;
+        }
+        public override void ChangePicture()
+        {
+            Reset();
+            X = Math.Max(0, X);
+            Y = Math.Max(0, Y);
+            switch (Type)
+            {
+                case 1:
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        X = Math.Min(X, 2 * PictureSize-1);
+                        Y = Math.Min(Y, PictureSize - Length);
+                        Picture[PictureSize - l - Y][X] = (char)('0' + Depth);
+                    }
+                    break;
+                case 2:
+                    X = Math.Min(X, 2 * PictureSize - Length);
+                    Y = Math.Min(Y, PictureSize-1);
+                    for (int l = 0; l < Length; l++)
+                    {
+                        Picture[PictureSize - 1 - Y][l+X] = (char)('0' + Depth);
+                    }
+                    break;
+                case 3:
+                    X = Math.Min(X, 2 * PictureSize - Length);
+                    Y = Math.Min(Y, PictureSize - Length);
+                    for (int l = 1; l <= Length; l++)
+                    {
+                        Picture[PictureSize - l - Y][l - 1 + X] = (char)('0' + Depth);
+                    }
+                    break;
+            }
         }
     }
 }
