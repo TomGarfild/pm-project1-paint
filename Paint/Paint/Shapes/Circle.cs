@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace Paint.Shapes
 {
@@ -7,7 +8,6 @@ namespace Paint.Shapes
     {
         public bool Filled { get; }
         public int Diameter { get; }
-
         public Circle() : base()
         {
 
@@ -20,11 +20,11 @@ namespace Paint.Shapes
             Color = GetColor();
             if (Diameter == 1)
             {
-                Picture[pictureSize-1][0] = (char)(Depth + '0');
+                Picture[pictureSize - 1][0] = (char)(Depth + '0');
             }
             else if (Diameter == 2)
             {
-                Picture[pictureSize-1][0] = (char)(Depth + '0');
+                Picture[pictureSize - 1][0] = (char)(Depth + '0');
                 Picture[pictureSize - 1][1] = (char)(Depth + '0');
                 Picture[pictureSize - 2][0] = (char)(Depth + '0');
                 Picture[pictureSize - 2][1] = (char)(Depth + '0');
@@ -41,7 +41,7 @@ namespace Paint.Shapes
                 {
                     Picture[i][0] = (char)(Depth + '0');
                     Picture[i][2 * Diameter - 1] = (char)(Depth + '0');
-                    if (filled)
+                    if (Filled)
                     {
                         for (int j = 1; j < 2 * Diameter; j++)
                         {
@@ -51,7 +51,7 @@ namespace Paint.Shapes
                 }
             }
             Perimeter = Math.PI * Diameter;
-            if (filled) Square = Math.PI * Diameter * Diameter / 4;
+            if (Filled) Square = Math.PI * Diameter * Diameter / 4;
             else Square = 0;
 
         }
@@ -62,5 +62,7 @@ namespace Paint.Shapes
                 && d >= 1) return d;
             return 1;
         }
+
+        
     }
 }

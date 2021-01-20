@@ -26,7 +26,7 @@ namespace Paint.Shapes
                     {
                         Picture[i][0] = (char)('0' + Depth);
                         Picture[i][i-pictureSize+Side] = (char)('0' + Depth);
-                        if (filled || i == pictureSize - 1)
+                        if (Filled || i == pictureSize - 1)
                         {
                             for (int j = 1; j < i - pictureSize + Side; j++)
                             {
@@ -36,7 +36,7 @@ namespace Paint.Shapes
                     }
                     
                     Perimeter = Side * (2 + Math.Sqrt(2));
-                    if (filled) Square = Side * Side / 2d;
+                    if (Filled) Square = Side * Side / 2d;
                     else Square = 0;
                     break;
                 case 2:
@@ -44,7 +44,7 @@ namespace Paint.Shapes
                     {
                         Picture[i][pictureSize-i-1] = (char)('0' + Depth);
                         Picture[i][i - pictureSize + 2*Side] = (char)('0' + Depth);
-                        if (filled || i == pictureSize - 1)
+                        if (Filled || i == pictureSize - 1)
                         {
                             for (int j = pictureSize-i; j < i - pictureSize + 2 * Side; j++)
                             {
@@ -53,7 +53,7 @@ namespace Paint.Shapes
                         }
                     }
                     Perimeter = Side * (2 + 2*Math.Sqrt(2));
-                    if (filled) Square = Side* Side;
+                    if (Filled) Square = Side* Side;
                     else Square = 0;
                     break;
             }

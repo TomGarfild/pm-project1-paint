@@ -8,7 +8,12 @@ namespace Paint.Shapes
     {
         [JsonPropertyName("depth")]
         public int Depth { get; set; }
+        
+        [JsonPropertyName("x")]
+        public int X { get; set; }
 
+        [JsonPropertyName("Y")]
+        public int Y { get; set; }
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
 
@@ -24,6 +29,8 @@ namespace Paint.Shapes
         protected Shape(int pictureSize, int depth)
         {
             Depth = depth;
+            X = 0;
+            Y = pictureSize - 1;
             //Picture should be in proportion width:height - 2:1
             Picture = new List<List<char>>();
             for (int i = 0; i < pictureSize; i++)

@@ -99,11 +99,6 @@ namespace Paint
 
             }
         }
-        public void Change()
-        {
-
-        }
-
         public void Remove()
         {
             int depth;
@@ -134,9 +129,44 @@ namespace Paint
             }
         }
 
-        public void Arrange()
+        public void Arrange(string[] options)
         {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {options[i]}");
+            }
+            Console.Write($"Enter number how do you want to arrange shapes: ");
+            if (int.TryParse(Console.ReadLine(), out var index)
+                && index >= 1 && index <= options.Length)
+            {
+                if (index == 1)
+                {
+                    var depth = new int[2];
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Console.Write($"Enter depth of {i+1} shape: ");
+                        if (!int.TryParse(Console.ReadLine(), out depth[i]) || depth[i] < 0 || depth[i] >= _shapes.Count())
+                        {
+                            Console.WriteLine("Such depth doesn't exist.");
+                            return;
+                        }
+                    }
 
+                    Swap(_shapes, depth[0], depth[1]);
+                }
+                else
+                {
+                    Console.Write("Enter distance to move: ");
+                    if (int.TryParse(Console.ReadLine(), out var distance) && distance > 0)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sorry, but such command doesn't exist.");
+            }
         }
 
         public void Filter(string[] options)
@@ -209,6 +239,13 @@ namespace Paint
         {
             var json = JsonSerializer.Serialize(_shapes);
             File.WriteAllText(Name + ".json", json);
+        }
+
+        private static void Swap(IList<Shape> list, int i, int j)
+        {
+            var temp = list[i].Depth;
+            list[i].Depth = list[j].Depth;
+            list[j].Depth = temp;
         }
     }
 }

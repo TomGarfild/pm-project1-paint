@@ -29,18 +29,15 @@ namespace Paint
                         _scene.Draw();
                         break;
                     case 2:
-                        _scene.Change();
-                        break;
-                    case 3:
                         _scene.Remove();
                         break;
-                    case 4:
-                        _scene.Arrange();
+                    case 3:
+                        _scene.Arrange(new string[] { "swap shapes", "right", "left", "up", "down" });
                         break;
-                    case 5:
+                    case 4:
                         _scene.Filter(new string[]{"square", "perimeter"});
                         break;
-                    case 6:
+                    case 5:
                         hasChanged = false;
                         var meaning = new string[]
                         {
@@ -54,7 +51,7 @@ namespace Paint
                         };
                         PrintHelp(commands, meaning);
                         break;
-                    case 7:
+                    case 6:
                         //Return to main menu
                         return;
                 }
