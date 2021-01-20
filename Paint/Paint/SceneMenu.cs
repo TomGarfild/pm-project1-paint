@@ -32,7 +32,7 @@ namespace Paint
                         _scene.Remove();
                         break;
                     case 3:
-                        _scene.Arrange(new string[] { "swap shapes", "right", "left", "up", "down" });
+                        _scene.Arrange(new string[] { "swap shapes"});
                         break;
                     case 4:
                         _scene.Filter(new string[]{"square", "perimeter"});

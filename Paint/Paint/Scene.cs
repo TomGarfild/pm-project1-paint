@@ -154,14 +154,6 @@ namespace Paint
 
                     Swap(_shapes, depth[0], depth[1]);
                 }
-                else
-                {
-                    Console.Write("Enter distance to move: ");
-                    if (int.TryParse(Console.ReadLine(), out var distance) && distance > 0)
-                    {
-
-                    }
-                }
             }
             else
             {
@@ -243,9 +235,12 @@ namespace Paint
 
         private static void Swap(IList<Shape> list, int i, int j)
         {
-            var temp = list[i].Depth;
+            var tDepth = list[i].Depth;
             list[i].Depth = list[j].Depth;
-            list[j].Depth = temp;
+            list[j].Depth = tDepth;
+            var tShape = list[i];
+            list[i] = list[j];
+            list[j] = tShape;
         }
     }
 }
