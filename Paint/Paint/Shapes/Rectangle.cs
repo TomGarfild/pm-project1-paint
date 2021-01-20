@@ -18,6 +18,7 @@ namespace Paint.Shapes
             Filled = filled;
             Width = Math.Min(GetSide("width"), pictureSize);
             Height = Math.Min(GetSide("height"), pictureSize);
+            Color = GetColor();
             for (int i = 0; i < Width; i++)
             {
                 Picture[pictureSize - 1][i] = (char)(Depth + '0');

@@ -43,6 +43,7 @@ namespace Paint
                     if (i == 0 || i == PictureSize + 1 ||
                         j == 0 || j == 2 * PictureSize + 1)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write('#');
                         continue;
                     }
@@ -54,11 +55,15 @@ namespace Paint
                     }
                     else
                     {
-                        Console.Write(selected.Min());
+                        var depth = selected.Min();
+                        Console.ForegroundColor = _shapes[depth].Color;
+                        Console.Write(depth);
                     }
                 }
                 Console.WriteLine();
             }
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void Draw()
         {
@@ -144,10 +149,10 @@ namespace Paint
             if (int.TryParse(Console.ReadLine(), out var index)
                 && index >= 1 && index <= options.Length)
             {
-                var sortedList = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
+                _shapes = index == 1 ? _shapes.OrderBy(sh => sh.Square).ToList()
                                         : _shapes.OrderBy(sh => sh.Perimeter).ToList();
                 var i = 0;
-                foreach (var sh in sortedList)
+                foreach (var sh in _shapes)
                 {
                     sh.Depth = i++;
                 }

@@ -8,8 +8,12 @@ namespace Paint.Shapes
     {
         [JsonPropertyName("depth")]
         public int Depth { get; set; }
+
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
+
+        [JsonPropertyName("color")]
+        public ConsoleColor Color { get; set; }
         [JsonIgnore]
         public double Perimeter { get; set; }
         [JsonIgnore]
@@ -41,6 +45,17 @@ namespace Paint.Shapes
             if (int.TryParse(Console.ReadLine(), out var key)
                 && key >= 1 && key <= types.Length) return key;
             return 1;
+        }
+
+        protected ConsoleColor GetColor()
+        {
+            Console.WriteLine("Enter color of your shape.(Default value is white)");
+            if (Enum.TryParse<ConsoleColor>(Console.ReadLine(), true, out var res))
+            {
+                return res;
+            }
+
+            return ConsoleColor.White;
         }
     }
 }

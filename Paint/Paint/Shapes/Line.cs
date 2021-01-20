@@ -16,6 +16,7 @@ namespace Paint.Shapes
         {
             Type = GetShapeKind(new string[] { "Vertical", "Horizontal", "Diagonal" }, "line");
             Length = Math.Min(GetLength(), pictureSize);
+            Color = GetColor();
             switch (Type)
             {
                 case 1:
