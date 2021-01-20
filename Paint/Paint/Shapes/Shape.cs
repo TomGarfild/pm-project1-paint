@@ -66,7 +66,7 @@ namespace Paint.Shapes
             for (int i = 0; i < PictureSize; i++)
             {
                 Picture.Add(new List<char>());
-                for (int j = 0; j < PictureSize * 2; j++)
+                for (int j = 0; j < PictureSize; j++)
                 {
                     Picture[i].Add('\0');
                 }

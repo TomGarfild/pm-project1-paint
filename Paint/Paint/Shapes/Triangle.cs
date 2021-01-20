@@ -17,7 +17,7 @@ namespace Paint.Shapes
         {
             Filled = filled;
             Type = GetShapeKind(new string[] {"Right triangle", "Isosceles triangle"}, "triangle");
-            Side = Math.Min(GetSide(), pictureSize);
+            Side = Math.Min(GetSide(), pictureSize/2);
             Color = GetColor();
             ChangePicture();
             switch (Type)
@@ -50,7 +50,7 @@ namespace Paint.Shapes
             switch (Type)
             {
                 case 1:
-                    X = Math.Min(Math.Max(0, X), 2 * PictureSize - Side);
+                    X = Math.Min(Math.Max(0, X), PictureSize - Side);
                     for (int i = PictureSize - Side; i < PictureSize; i++)
                     {
                         Picture[i-Y][X] = (char)('0' + Depth);
@@ -65,14 +65,14 @@ namespace Paint.Shapes
                     }
                     break;
                 case 2:
-                    X = Math.Min(Math.Max(0, X), 2 * PictureSize - 2*Side);
+                    X = Math.Min(Math.Max(0, X), PictureSize - 2*Side);
                     for (int i = PictureSize - Side; i < PictureSize; i++)
                     {
                         Picture[i-Y][PictureSize - i - 1+X] = (char)('0' + Depth);
-                        Picture[i-Y][i - PictureSize + 2 * Side+X] = (char)('0' + Depth);
+                        Picture[i-Y][i - PictureSize + 2*Side+X] = (char)('0' + Depth);
                         if (Filled || i == PictureSize - 1)
                         {
-                            for (int j = PictureSize - i; j < i - PictureSize + 2 * Side; j++)
+                            for (int j = PictureSize - i; j < i - PictureSize + 2*Side; j++)
                             {
                                 Picture[i-Y][j+X] = (char)('0' + Depth);
                             }

@@ -38,7 +38,7 @@ namespace Paint.Shapes
         public override void ChangePicture()
         {
             Reset();
-            X = Math.Min(Math.Max(0, X), 2*PictureSize-Width);
+            X = Math.Min(Math.Max(0, X), PictureSize-Width);
             Y = Math.Min(Math.Max(0, Y), PictureSize - Height);
             for (int i = 0; i < Width; i++)
             {

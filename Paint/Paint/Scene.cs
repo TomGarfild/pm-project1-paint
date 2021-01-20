@@ -38,14 +38,15 @@ namespace Paint
             for (int i = 0; i < PictureSize+2; i++)
             {
                 Console.Write(' ');
-                for (int j = 0; j < PictureSize*2+2; j++)
+                for (int j = 0; j < PictureSize+2; j++)
                 {
                     //borders
                     if (i == 0 || i == PictureSize + 1 ||
-                        j == 0 || j == 2 * PictureSize + 1)
+                        j == 0 || j ==  PictureSize + 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write('#');
+                        Console.Write(' ');
                         continue;
                     }
                     var selected = _shapes.Where(s => s.Picture[i-1][j-1] != '\0').Select(s => s.Depth).ToList();
@@ -60,6 +61,7 @@ namespace Paint
                         Console.ForegroundColor = _shapes[depth].Color;
                         Console.Write(depth);
                     }
+                    Console.Write(' ');
                 }
                 Console.WriteLine();
             }

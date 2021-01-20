@@ -34,7 +34,7 @@ namespace Paint.Shapes
         public override void ChangePicture()
         {
             Reset();
-            X = Math.Min(Math.Max(0, X), 2*PictureSize - 2*Diameter);
+            X = Math.Min(Math.Max(0, X), PictureSize - Diameter);
             Y = Math.Min(Math.Max(0, Y), PictureSize - Diameter);
             if (Diameter == 1)
             {
@@ -49,7 +49,7 @@ namespace Paint.Shapes
             }
             else
             {
-                for (int i = 1; i < 2 * Diameter - 1; i++)
+                for (int i = 1; i < Diameter - 1; i++)
                 {
                     Picture[PictureSize - 1-Y][X+i] = (char)(Depth + '0');
                     Picture[PictureSize - Diameter-Y][X+i] = (char)(Depth + '0');
@@ -58,10 +58,10 @@ namespace Paint.Shapes
                 for (int i = PictureSize - Diameter + 1; i < PictureSize - 1; i++)
                 {
                     Picture[i-Y][X] = (char)(Depth + '0');
-                    Picture[i-Y][2 * Diameter - 1 + X] = (char)(Depth + '0');
+                    Picture[i-Y][Diameter - 1 + X] = (char)(Depth + '0');
                     if (Filled)
                     {
-                        for (int j = 1; j < 2 * Diameter; j++)
+                        for (int j = 1; j < Diameter; j++)
                         {
                             Picture[i-Y][j+X] = (char)(Depth + '0');
                         }

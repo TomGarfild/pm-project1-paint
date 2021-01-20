@@ -39,13 +39,13 @@ namespace Paint.Shapes
                 case 1:
                     for (int l = 1; l <= Length; l++)
                     {
-                        X = Math.Min(X, 2 * PictureSize-1);
+                        X = Math.Min(X, PictureSize-1);
                         Y = Math.Min(Y, PictureSize - Length);
                         Picture[PictureSize - l - Y][X] = (char)('0' + Depth);
                     }
                     break;
                 case 2:
-                    X = Math.Min(X, 2 * PictureSize - Length);
+                    X = Math.Min(X, PictureSize - Length);
                     Y = Math.Min(Y, PictureSize-1);
                     for (int l = 0; l < Length; l++)
                     {
@@ -53,7 +53,7 @@ namespace Paint.Shapes
                     }
                     break;
                 case 3:
-                    X = Math.Min(X, 2 * PictureSize - Length);
+                    X = Math.Min(X, PictureSize - Length);
                     Y = Math.Min(Y, PictureSize - Length);
                     for (int l = 1; l <= Length; l++)
                     {
