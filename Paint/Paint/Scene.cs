@@ -115,17 +115,17 @@ namespace Paint
             else
             {
                 Console.WriteLine($"Are you sure about removing shape with depth {depth}?");
-                Console.WriteLine("Press y to confirm.");
+                Console.Write ("Press y to confirm ");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine();
                     _shapes.Remove(_shapes.FirstOrDefault(sh => sh.Depth == depth));
-                    Console.WriteLine($"Shape with {depth} was successfully removed from current scene.");
+                    Console.WriteLine($"Shape {depth} was successfully removed from current scene.");
                     foreach (var sh in _shapes)
                     {
                         if (sh.Depth > depth) sh.Depth--;
                     }
                 }
-                
             }
         }
 

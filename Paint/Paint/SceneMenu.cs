@@ -12,7 +12,7 @@ namespace Paint
         public override void Start()
         {
             var commands = new string[]
-                {"Draw shape", "Change shape", "Remove shape", "Arrange shapes", "Filter", "Help", "Main menu"};
+                {"Draw shape","Remove shape", "Arrange shapes", "Filter", "Help", "Main menu"};
             var hasChanged = true;
             while (true)
             {
@@ -42,7 +42,6 @@ namespace Paint
                         var meaning = new string[]
                         {
                             "Draw shape with your parameters.",
-                            "Change parameters of chosen shape.",
                             "Remove shape by its depth index.",
                             "Move shapes in the current scene.",
                             "Filter shapes by some parameters.",

@@ -72,11 +72,12 @@ namespace Paint
             if (_scenes.Exists(s => s.Id == id))
             {
                 Console.WriteLine($"Are you sure about removing scene with id {id}?");
-                Console.WriteLine("Press y to confirm.");
+                Console.Write("Press y to confirm ");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine();
                     _scenes.Remove(_scenes.First(s => s.Id == id));
-                    Console.WriteLine($"\nScene with id {id} was successfully removed.");
+                    Console.WriteLine($"Scene with id {id} was successfully removed.");
                     //update last id
                     _lastId = _scenes.Last().Id + 1;
                     return true;
