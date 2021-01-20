@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Paint.Shapes;
@@ -143,6 +144,34 @@ namespace Paint
 
                     Swap(_shapes, depth[0], depth[1]);
                 }
+                else
+                {
+                    int depth;
+                    Console.Write($"Enter depth of shape: ");
+                    if (!int.TryParse(Console.ReadLine(), out depth) || depth < 0 || depth >= _shapes.Count())
+                    {
+                        Console.WriteLine("Such depth doesn't exist.");
+                        return;
+                    }
+                    var distance = GetDistance();
+                    
+                    switch (index) 
+                    {
+                        case 2:
+                            _shapes[depth].X += distance;
+                            break;
+                        case 3:
+                            _shapes[depth].X -= distance;
+                            break;
+                        case 4:
+                            _shapes[depth].Y += distance;
+                            break;
+                        case 5:
+                            _shapes[depth].Y += distance;
+                            break;
+                    }
+                    _shapes[depth].ChangePicture();
+                }
             }
             else
             {
@@ -230,6 +259,13 @@ namespace Paint
             var tShape = list[i];
             list[i] = list[j];
             list[j] = tShape;
+        }
+
+        private static int GetDistance()
+        {
+            Console.WriteLine("Enter distance to move your shape");
+            if (int.TryParse(Console.ReadLine(), out var dis) && dis > 0) return dis;
+            return 0;
         }
     }
 }

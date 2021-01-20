@@ -14,6 +14,8 @@ namespace Paint.Shapes
 
         [JsonPropertyName("y")]
         public int Y { get; set; }
+        [JsonPropertyName("pictureSize")]
+        public int PictureSize { get; set; }
 
         [JsonPropertyName("picture")]
         public List<List<char>> Picture { get; set; }
@@ -31,17 +33,8 @@ namespace Paint.Shapes
         {
             Depth = depth;
             X = 0;
-            Y = pictureSize - 1;
-            //Picture should be in proportion width:height - 2:1
-            Picture = new List<List<char>>();
-            for (int i = 0; i < pictureSize; i++)
-            {
-                Picture.Add(new List<char>());
-                for (int j = 0; j < pictureSize * 2; j++)
-                {
-                    Picture[i].Add('\0');
-                }
-            }
+            Y = 0;
+            PictureSize = pictureSize;
         }
         protected int GetShapeKind(string[] types, string shapeName)
         {
@@ -64,6 +57,25 @@ namespace Paint.Shapes
             }
 
             return ConsoleColor.White;
+        }
+
+        protected void Reset()
+        {
+            //Picture should be in proportion width:height - 2:1
+            Picture = new List<List<char>>();
+            for (int i = 0; i < PictureSize; i++)
+            {
+                Picture.Add(new List<char>());
+                for (int j = 0; j < PictureSize * 2; j++)
+                {
+                    Picture[i].Add('\0');
+                }
+            }
+        }
+
+        public virtual void ChangePicture()
+        {
+
         }
     }
 }
